@@ -34,10 +34,10 @@ options:
 ### Example
 
 ```bash
-./warca_train_single_precision.bin -r 40 -k 4 -g 0.01 -e 0.1 -l 1e-4 -i 2000 -b 512 -m 512 -s 1 -q  ./data/toy_train_features.txt ./data/toy_train_labels.txt ./results/toy.model
+./warca_train_single_precision.bin -r 40 -k 4 -g 0.01 -e 0.1 -l 1e-4 -i 2000 -b 512 -m 512 -s 1 -q  ./data/toy_train_features.txt ./data/toy_train_labels.txt toy.model
 ```
 Executing the above command trains a warca model, with rank of the embedding=40, with chi2rbf kernel, learning rate(eta) = 0.1, regularizer strength(lambda)=1e-4, maximum SGD updates (max_iter)=2000, batchsize=512 and max_sampling=512
-on the toy dataset distributed along with the code. It also saves the model as toy.model in results directory.
+on the toy dataset distributed along with the code. It also saves the model as toy.model in the current directory.
 
 
 ## warca_predict_{single, double}_precision.bin Usage
@@ -47,10 +47,10 @@ Usage: warca_predict_{single, double}_precision.bin feature_file model_file resu
 ### Example
 
 ```bash
-warca_predict_single_precision  ./data/toy_test_features.txt ./results/toy.model ./results/toy_test_warca_embedding.txt
+warca_predict_single_precision  ./data/toy_test_features.txt ./toy.model ./toy_test_warca_embedding.txt
 ```
 
-Executing the above command will compute the embedding on the toy_features using the warca model saved under ./result/toy.model and saves the computed embedding to ./results/toy_test_embedding.txt
+Executing the above command will compute the embedding on the toy_features using the warca model saved under ./toy.model and saves the computed embedding to ./toy_test_embedding.txt
 
 ## Compilation and usage of matlab interface
 
