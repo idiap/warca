@@ -1,4 +1,4 @@
-CXX = clang++
+CXX = g++
 CFLAGS = -Wall -fPIC -fopenmp
 SRCDIR = src
 INCLUDES = src
