@@ -57,7 +57,7 @@ for nf = 1 : num_folds
 end
 mean_cmc = mean(cmc);
 plot(1 : num_ranks, mean_cmc);
-model_name = [dataset_name, '_sigma_', num2str(method.rbf_sigma) '_reg_', num2str(lambda), '_', method.kernel,'_', num2str(rank),'_',num2str(eta),'_',num2str(batch_size),'.mat'];
+model_name = [dataset_name, '_gamma_', num2str(method.gamma) '_reg_', num2str(lambda), '_', method.kernel,'_', num2str(rank),'_',num2str(eta),'_',num2str(batch_size),'.mat'];
 save(['../results/', model_name], 'cmc', 'warca_models');
 fprintf('The average performance:\n');
 fprintf(' Rank1,  Rank5, Rank10, Rank15, Rank20\n');
