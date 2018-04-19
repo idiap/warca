@@ -47,7 +47,7 @@ Usage: warca_predict_{single, double}_precision.bin feature_file model_file resu
 ### Example
 
 ```bash
-warca_predict_single_precision  ./data/toy_test_features.txt ./toy.model ./toy_test_warca_embedding.txt
+warca_predict_single_precision.bin  ./data/toy_test_features.txt ./toy.model ./toy_test_warca_embedding.txt
 ```
 
 Executing the above command will compute the embedding on the toy_features using the warca model saved under ./toy.model and saves the computed embedding to ./toy_test_embedding.txt

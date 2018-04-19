@@ -448,7 +448,7 @@ void WARCA<scalar_t>::predict(const scalar_t* data, scalar_t *embedding,  uint32
         throw warca_error("The input size doesn't match with SVs\n");
       }
       cblas_gemm<scalar_t>(CblasNoTrans, CblasTrans, num_data, num_svs_,
-                      dim_data, scalar_t(1), SVs_, data, scalar_t(0), kernel_matrix);
+                           dim_data, scalar_t(1), data, SVs_, scalar_t(0), kernel_matrix);
       cblas_gemm<scalar_t>(CblasNoTrans, CblasTrans, num_data, rank_, dim_, scalar_t(1), kernel_matrix, weight_, scalar_t(0), embedding);
       delete [] kernel_matrix;
       break;
