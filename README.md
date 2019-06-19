@@ -61,4 +61,5 @@ A matlab interface is provided under the directory matlab. The interface can be 
 A demo of the matlab interface usage is given in examples/demo_VIPeR.m
 
 ### Issues with code
-Please contact me at cijose-at-idiap.ch
+Please contact me at josevancijo@gmail.com
+
