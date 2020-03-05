@@ -1,5 +1,5 @@
 /*
- *  warca is a library for metric learning using weighted approximate rank 
+ *  warca is a library for metric learning using weighted approximate rank
  *  component analysis algorithm written in c++.
  *
  *  Copyright (c) 2016 Idiap Research Institute, http://www.idiap.ch/
@@ -21,19 +21,18 @@
  *
  */
 
-#include <cstdlib>
+#include "random.h"
 #include <cmath>
 #include <cstdio>
+#include <cstdlib>
 #include <ctime>
-#include "random.h"
-
 
 Prand::Prand(unsigned long s) {
-  mt = new unsigned long [Prand::N];
-  mt[0]= s & 0xffffffffUL;
+  mt = new unsigned long[Prand::N];
+  mt[0] = s & 0xffffffffUL;
   mti = 1;
   for (; mti < N; mti++) {
-    mt[mti] =   (1812433253UL * (mt[mti-1] ^ (mt[mti-1] >> 30)) + mti);
+    mt[mti] = (1812433253UL * (mt[mti - 1] ^ (mt[mti - 1] >> 30)) + mti);
     /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
     /* In the previous versions, MSBs of the seed affect   */
     /* only MSBs of the array mt[].                        */
@@ -47,13 +46,12 @@ Prand::Prand(unsigned long s) {
 
 Prand::Prand() {
   unsigned long s = 5489UL & (unsigned long)time(NULL);
-  //printf("Hello world %d \n", Prand::N);
-  mt = new unsigned long [Prand::N];
-  mt[0]= s & 0xffffffffUL;
+  // printf("Hello world %d \n", Prand::N);
+  mt = new unsigned long[Prand::N];
+  mt[0] = s & 0xffffffffUL;
   mti = 1;
   for (; mti < N; mti++) {
-    mt[mti] =
-      (1812433253UL * (mt[mti-1] ^ (mt[mti-1] >> 30)) + mti);
+    mt[mti] = (1812433253UL * (mt[mti - 1] ^ (mt[mti - 1] >> 30)) + mti);
     /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
     /* In the previous versions, MSBs of the seed affect   */
     /* only MSBs of the array mt[].                        */
@@ -73,16 +71,16 @@ unsigned long Prand::randi_32(void) {
   /* mag01[x] = x * MATRIX_A  for x=0,1 */
   if (mti >= N) { /* generate N words at one time */
     int kk;
-    for (kk = 0; kk < N-M; kk++) {
-      y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
-      mt[kk] = mt[kk+M] ^ (y >> 1) ^ mag01[y & 0x1UL];
+    for (kk = 0; kk < N - M; kk++) {
+      y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+      mt[kk] = mt[kk + M] ^ (y >> 1) ^ mag01[y & 0x1UL];
     }
-    for (; kk < N-1; kk++) {
-      y = (mt[kk] & UPPER_MASK) | (mt[kk+1] & LOWER_MASK);
-      mt[kk] = mt[kk + (M-N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
+    for (; kk < N - 1; kk++) {
+      y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
+      mt[kk] = mt[kk + (M - N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
     }
-    y = (mt[N-1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
-    mt[N-1] = mt[M-1] ^ (y >> 1) ^ mag01[y & 0x1UL];
+    y = (mt[N - 1] & UPPER_MASK) | (mt[0] & LOWER_MASK);
+    mt[N - 1] = mt[M - 1] ^ (y >> 1) ^ mag01[y & 0x1UL];
     mti = 0;
   }
   y = mt[mti++];
@@ -96,9 +94,7 @@ unsigned long Prand::randi_32(void) {
 
 /* generates a random number on [0,0x7fffffff]-interval */
 
-long Prand::randi_31(void) {
-  return (long)(randi_32() >> 1);
-}
+long Prand::randi_31(void) { return (long)(randi_32() >> 1); }
 /* generates a random number on [0,1]-real-interval */
 
 double Prand::rand_1(void) {
@@ -123,30 +119,29 @@ double Prand::rand_3(void) {
 */
 
 double Prand::gauss_rng() {
-  if(return_v) {
+  if (return_v) {
     return_v = 0;
     return v_val;
   }
   double u = 2 * rand_3() - 1;
   double v = 2 * rand_3() - 1;
   double r = u * u + v * v;
-  if(r == 0 || r > 1) return gauss_rng();
+  if (r == 0 || r > 1)
+    return gauss_rng();
   double c = sqrt(-2 * log(r) / r);
   v_val = v * c; // cache this for next
   return_v = 1;
   return u * c;
 }
-//Generate a random integer between a and b
+// Generate a random integer between a and b
 int Prand::randi(int a, int b) {
-  double rval =  rand_1() * (double)(b - a) + (double)a;
+  double rval = rand_1() * (double)(b - a) + (double)a;
   return floor(rval);
 }
-//Generate a floating point random variable  between a and b
-double Prand::uniform_rng(double a, double b) {
-  return rand_1() * (b - a) + a;
-}
+// Generate a floating point random variable  between a and b
+double Prand::uniform_rng(double a, double b) { return rand_1() * (b - a) + a; }
 
-//Generate a floating point random variable  between a and b
+// Generate a floating point random variable  between a and b
 double Prand::randn(const double mu, const double stddev) {
-  return gauss_rng() * stddev +  mu;
+  return gauss_rng() * stddev + mu;
 }
